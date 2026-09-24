@@ -1,0 +1,5 @@
+[
+  {"id":"spec-1","title":"Reservation service design note","url":"local://spec-1","text":"A hold consumes available capacity while active. Confirmation makes the reservation durable. Expired unconfirmed holds release capacity."},
+  {"id":"spec-2","title":"Idempotency design note","url":"local://spec-2","text":"A repeated request with the same idempotency key and identical item and quantity returns the original hold. A conflicting request returns an error."},
+  {"id":"spec-3","title":"Concurrency design note","url":"local://spec-3","text":"The inventory capacity check and hold creation occur under one lock, preventing concurrent requests from overselling a single process."}
+]
