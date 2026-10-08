@@ -1,11 +1,28 @@
 name: Verify
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - run: PYTHONPATH=. python -m unittest discover -s tests -v
+          python-version: ${{ matrix.python }}
+      - name: Unit, integration, failure and evaluation tests
+        run: python -W error -m unittest discover -s tests -v
+      - name: Build wheel
+        run: python -m pip wheel --no-deps . --wheel-dir dist
+      - name: Install and exercise packaged CLI outside checkout
+        run: |
+          python -m venv /tmp/evidence-smoke
+          /tmp/evidence-smoke/bin/pip install --no-deps dist/*.whl
+          cd /tmp
+          /tmp/evidence-smoke/bin/evidence-agent 'reservation capacity' --claim 'A hold consumes available capacity while active.' > evidence-result.json
+          /tmp/evidence-smoke/bin/python -c 'import json; r=json.load(open("evidence-result.json")); assert r["status"] == "complete"; assert r["claims"][0]["citations"]'

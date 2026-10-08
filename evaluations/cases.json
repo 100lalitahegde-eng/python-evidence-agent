@@ -1,0 +1,6 @@
+[
+  {"name":"direct evidence", "question":"active reservation inventory capacity", "claim":"An active reservation consumes inventory capacity.", "label":"supported", "expected_candidate":true},
+  {"name":"contradiction lexical trap", "question":"active reservation inventory capacity", "claim":"An active reservation never consumes inventory capacity.", "label":"contradicted", "expected_candidate":true},
+  {"name":"unrelated claim", "question":"active reservation inventory capacity", "claim":"The moon consists entirely of cheese.", "label":"unrelated", "expected_candidate":false},
+  {"name":"missing retrieval", "question":"ocean tides gravity", "claim":"An active reservation consumes inventory capacity.", "label":"supported_but_not_retrieved", "expected_candidate":false}
+]
