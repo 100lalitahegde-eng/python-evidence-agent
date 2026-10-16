@@ -73,3 +73,29 @@ An HTTP product would additionally need authentication, authorization per corpus
 request-size limits at ingress, tenant-specific quotas, durable job ownership if requests
 outlive connections, and health/metrics endpoints. Add those with a concrete hosting model.
 Those deployment boundaries are outside the current component.
+
+## ADR 5: the host owns lifecycle and transport
+
+`EvidenceService` is a reusable application component, not an HTTP server. Its explicit
+lifecycle separates readiness (`accepting`) from load (`active_runs`). `aclose()` closes
+admission before waiting for existing work. Closing is permanent and idempotent on the
+owning event loop. Concurrent shutdown callers can wait independently. Cancelling one
+shutdown waiter leaves admitted tasks running and admission closed.
+
+The host owns request tasks, shutdown deadlines, provider connection pools and transport
+responses. It should stop traffic, await `aclose()` within its grace period, then cancel
+and await its own remaining request tasks if that period expires. A subsequent `aclose()`
+can finish draining. Never call `aclose()` from an admitted request or its provider: that
+would wait for itself. Context management is available for hosts whose task ownership
+already guarantees completion. Shutdown cannot force a cancellation-hostile adapter to stop.
+
+`ClosedError` means the instance is retiring; `BusyError` means temporary overload.
+`AssessmentError` is a `ValueError` subclass for compatibility, but is an adapter failure,
+not invalid user input. Invalid citation objects, unknown sources and assessor exceptions
+fail closed with a content-free message. No partial assessment result is published.
+The assessment adapter remains synchronous and must execute bounded local CPU work.
+
+`tests/test_architecture.py` enforces that domain, ports and application orchestration
+cannot import concrete adapters or third-party dependencies. New transports compose the
+application rather than being imported into its core. Runtime failure-injection and
+lifecycle tests complement this structural check; they do not establish deployment SLOs.

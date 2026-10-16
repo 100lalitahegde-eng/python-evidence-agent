@@ -27,3 +27,18 @@ requests before choosing capacities. Audit data grows until the operator applies
 there is no automatic purge. SQLite WAL files are part of the active database: use SQLite's
 backup API for a consistent backup, restore into a separate path, and verify representative
 run IDs before switching. Backup/restore is guidance, not a deployment exercise verified here.
+
+## Embedding and shutdown
+
+Create one service per event loop at host startup. Use `accepting` for lifecycle readiness
+and `active_runs` for an instantaneous load gauge; neither is a distributed health check.
+Map `BusyError` to temporary overload, `ClosedError` to an unavailable retiring instance,
+and `AssessmentError` to a safe internal failure. Do not classify `AssessmentError` as
+bad user input merely because it inherits `ValueError`.
+
+A host can drain using `await asyncio.wait_for(service.aclose(), timeout=grace_seconds)`.
+When that wait times out, admission stays closed. Cancel and await the request tasks owned
+by the host, then await `service.aclose()` again. The service never cancels unrelated host
+tasks and does not close injected adapters. The host must close those resources after
+request cleanup. Readiness starts false only after shutdown begins; initialize adapters
+and perform any required external health checks before registering the host as ready.

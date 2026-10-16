@@ -45,6 +45,8 @@ for boundaries, retry semantics, source trust and deliberate trade-offs.
 - Rejects excess concurrent runs immediately; caps provider attempts including retries.
 - Retries transient read-only failures with bounded backoff and cooperative call timeouts.
 - Propagates caller cancellation and releases admission capacity in all exit paths.
+- Stops admission and drains active work at shutdown; exposes readiness and active-run count.
+- Normalises invalid assessment output into a safe typed error without publishing a result.
 - Distinguishes complete, partial and failed retrieval; missing evidence after a failure
   is marked `retrieval incomplete`, never presented as a complete negative assessment.
 - Validates every citation against exact source offsets and SHA-256 before output.
@@ -61,7 +63,8 @@ for exit codes, diagnosis, storage limits and hosting responsibilities.
 CI runs unit, async failure-injection, SQLite reopen, CLI integration and synthetic
 regression tests on three Python versions. It builds a wheel and exercises its installed
 entry point outside the checkout, checking that the default corpus is packaged.
-Coverage includes overload, cancellation cleanup, retry exhaustion, total call budgets,
+Coverage includes graceful shutdown, cancelled drain waits, architecture dependency boundaries,
+overload, cancellation cleanup, retry exhaustion, total call budgets,
 permanent failures, partial retrieval, malformed providers and fabricated citations.
 
 `evaluations/cases.json` records supported, contradictory, unrelated and unretrieved

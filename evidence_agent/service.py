@@ -4,7 +4,7 @@ from dataclasses import asdict
 import logging
 import time
 from uuid import uuid4
-from .domain import Policy, Request, Source
+from .domain import Citation, Policy, Request, Source
 from .ports import Assessment, ProviderError, Retrieval, TransientProviderError
 
 logger = logging.getLogger(__name__)
@@ -12,6 +12,14 @@ logger = logging.getLogger(__name__)
 
 class BusyError(Exception):
     """Admission rejected immediately; caller owns retry/backpressure policy."""
+
+
+class ClosedError(Exception):
+    """Service is draining or closed; new requests cannot enter."""
+
+
+class AssessmentError(ValueError):
+    """Assessment adapter failed or returned invalid evidence; no result is emitted."""
 
 
 class _Failure(Exception):
@@ -25,17 +33,55 @@ class EvidenceService:
         self.retrieval, self.assessment, self.policy = retrieval, assessment, policy
         self._active = 0
         self._loop = None
+        self._closed = False
+        self._idle = asyncio.Event()
+        self._idle.set()
 
-    async def run(self, request: Request) -> dict:
-        if not isinstance(request, Request):
-            raise ValueError("a validated Request is required")
+    def _bind_loop(self):
         loop = asyncio.get_running_loop()
         if self._loop is not None and self._loop is not loop:
             raise RuntimeError("service must remain on one event loop")
         self._loop = loop
+
+    @property
+    def accepting(self) -> bool:
+        """Readiness signal, distinct from temporary capacity exhaustion."""
+        return not self._closed
+
+    @property
+    def active_runs(self) -> int:
+        return self._active
+
+    async def aclose(self) -> None:
+        """Stop admission and drain admitted work; does not own adapter resources.
+
+        Cancellation stops this wait, never reopens admission or cancels requests.
+        Hosts own shutdown deadlines and cancellation of their request tasks.
+        Call from the host lifecycle, never from an admitted request/provider.
+        """
+        self._bind_loop()
+        self._closed = True
+        await self._idle.wait()
+
+    async def __aenter__(self):
+        self._bind_loop()
+        if self._closed:
+            raise ClosedError("service is closed")
+        return self
+
+    async def __aexit__(self, exc_type, exc, traceback):
+        await self.aclose()
+
+    async def run(self, request: Request) -> dict:
+        if not isinstance(request, Request):
+            raise ValueError("a validated Request is required")
+        self._bind_loop()
+        if self._closed:
+            raise ClosedError("service is closed")
         if self._active >= self.policy.max_concurrent:
             raise BusyError("service capacity exhausted")
         self._active += 1  # No await between admission check and increment.
+        self._idle.clear()
         started = time.monotonic()
         deadline = started + self.policy.deadline_seconds
         run_id = str(uuid4())
@@ -105,12 +151,17 @@ class EvidenceService:
                 errors.append({"code": exc.code, "operation": "search"})
             assessments = []
             for claim in request.claims:
-                citations = self.assessment.candidates(claim, tuple(sources))
-                if not isinstance(citations, list) or len(citations) > len(sources):
-                    raise ValueError("invalid assessment output")
-                by_id = {s.id: s for s in sources}
-                for citation in citations:
-                    citation.validate(by_id[citation.source_id])
+                try:
+                    citations = self.assessment.candidates(claim, tuple(sources))
+                    if (not isinstance(citations, list) or len(citations) > len(sources)
+                            or any(not isinstance(c, Citation) for c in citations)):
+                        raise ValueError("invalid assessment output")
+                    by_id = {s.id: s for s in sources}
+                    for citation in citations:
+                        citation.validate(by_id[citation.source_id])
+                except Exception:
+                    # Normalize untrusted adapter failures without disclosing content.
+                    raise AssessmentError("assessment failed validation") from None
                 assessments.append({"claim": claim,
                                     "status": "needs human verification" if citations else
                                     "retrieval incomplete" if errors else "unsupported by retrieved text",
@@ -127,3 +178,5 @@ class EvidenceService:
             return result
         finally:
             self._active -= 1
+            if self._active == 0:
+                self._idle.set()
