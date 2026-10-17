@@ -1,0 +1,461 @@
+{
+  "python": "3.12.14",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "duration_seconds": 60.0835837930008,
+  "requested_seconds": 60.0,
+  "concurrency": 4,
+  "workload": "closed-loop local synthetic corpus; process-isolated lexical assessment; SQLite FULL synchronous retention; no external network",
+  "completed": 2632,
+  "statuses": {
+    "complete": 2632
+  },
+  "runs_per_second": 43.805642637225716,
+  "latency_ms": {
+    "p50": 89.24449699952675,
+    "p95": 109.00896700150042,
+    "p99": 117.34740000065358,
+    "max": 142.83591100138437
+  },
+  "retention": {
+    "rows": 2632,
+    "integrity": "ok",
+    "initial_bytes": 12288,
+    "final_bytes": 3751936,
+    "bytes_per_run": 1420.838905775076
+  },
+  "rss": {
+    "initial_bytes": 18247680,
+    "final_bytes": 21708800,
+    "parent_peak_kib": 20940,
+    "largest_child_peak_kib": 20940
+  },
+  "cancellation": {
+    "trials": 20,
+    "p95_ms": 1.030573999742046,
+    "max_ms": 1.0968130009132437,
+    "children_remaining": 0,
+    "admission_remaining": 0
+  },
+  "samples": [
+    {
+      "seconds": 0.01,
+      "completed": 0,
+      "rss_bytes": 19660800,
+      "db_bytes": 12288,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 1.01,
+      "completed": 37,
+      "rss_bytes": 19804160,
+      "db_bytes": 65536,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 2.01,
+      "completed": 75,
+      "rss_bytes": 19808256,
+      "db_bytes": 114688,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 3.01,
+      "completed": 118,
+      "rss_bytes": 19824640,
+      "db_bytes": 184320,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 4.01,
+      "completed": 161,
+      "rss_bytes": 19828736,
+      "db_bytes": 241664,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 5.02,
+      "completed": 207,
+      "rss_bytes": 19828736,
+      "db_bytes": 307200,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 6.02,
+      "completed": 249,
+      "rss_bytes": 19828736,
+      "db_bytes": 364544,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 7.02,
+      "completed": 291,
+      "rss_bytes": 19832832,
+      "db_bytes": 425984,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 8.02,
+      "completed": 334,
+      "rss_bytes": 19832832,
+      "db_bytes": 487424,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 9.02,
+      "completed": 379,
+      "rss_bytes": 19832832,
+      "db_bytes": 552960,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 10.02,
+      "completed": 426,
+      "rss_bytes": 19832832,
+      "db_bytes": 614400,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 11.03,
+      "completed": 471,
+      "rss_bytes": 19832832,
+      "db_bytes": 679936,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 12.03,
+      "completed": 513,
+      "rss_bytes": 19832832,
+      "db_bytes": 737280,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 13.03,
+      "completed": 554,
+      "rss_bytes": 19841024,
+      "db_bytes": 794624,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 14.04,
+      "completed": 597,
+      "rss_bytes": 19841024,
+      "db_bytes": 860160,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 15.04,
+      "completed": 640,
+      "rss_bytes": 19841024,
+      "db_bytes": 921600,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 16.04,
+      "completed": 685,
+      "rss_bytes": 19841024,
+      "db_bytes": 983040,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 17.04,
+      "completed": 730,
+      "rss_bytes": 19841024,
+      "db_bytes": 1048576,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 18.04,
+      "completed": 776,
+      "rss_bytes": 19841024,
+      "db_bytes": 1110016,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 19.04,
+      "completed": 821,
+      "rss_bytes": 19841024,
+      "db_bytes": 1175552,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 20.04,
+      "completed": 867,
+      "rss_bytes": 19841024,
+      "db_bytes": 1241088,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 21.04,
+      "completed": 910,
+      "rss_bytes": 19841024,
+      "db_bytes": 1302528,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 22.04,
+      "completed": 954,
+      "rss_bytes": 19841024,
+      "db_bytes": 1359872,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 23.04,
+      "completed": 1000,
+      "rss_bytes": 19841024,
+      "db_bytes": 1425408,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 24.04,
+      "completed": 1046,
+      "rss_bytes": 19845120,
+      "db_bytes": 1495040,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 25.05,
+      "completed": 1091,
+      "rss_bytes": 19845120,
+      "db_bytes": 1556480,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 26.05,
+      "completed": 1136,
+      "rss_bytes": 19845120,
+      "db_bytes": 1617920,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 27.05,
+      "completed": 1181,
+      "rss_bytes": 19849216,
+      "db_bytes": 1679360,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 28.05,
+      "completed": 1226,
+      "rss_bytes": 19849216,
+      "db_bytes": 1748992,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 29.05,
+      "completed": 1270,
+      "rss_bytes": 19849216,
+      "db_bytes": 1810432,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 30.05,
+      "completed": 1316,
+      "rss_bytes": 19853312,
+      "db_bytes": 1875968,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 31.05,
+      "completed": 1357,
+      "rss_bytes": 19853312,
+      "db_bytes": 1933312,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 32.05,
+      "completed": 1404,
+      "rss_bytes": 19857408,
+      "db_bytes": 1994752,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 33.06,
+      "completed": 1445,
+      "rss_bytes": 19857408,
+      "db_bytes": 2052096,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 34.06,
+      "completed": 1486,
+      "rss_bytes": 19857408,
+      "db_bytes": 2113536,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 35.06,
+      "completed": 1531,
+      "rss_bytes": 19861504,
+      "db_bytes": 2183168,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 36.06,
+      "completed": 1576,
+      "rss_bytes": 19861504,
+      "db_bytes": 2252800,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 37.06,
+      "completed": 1621,
+      "rss_bytes": 19865600,
+      "db_bytes": 2318336,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 38.06,
+      "completed": 1664,
+      "rss_bytes": 19865600,
+      "db_bytes": 2375680,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 39.06,
+      "completed": 1712,
+      "rss_bytes": 19865600,
+      "db_bytes": 2441216,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 40.06,
+      "completed": 1756,
+      "rss_bytes": 19869696,
+      "db_bytes": 2502656,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 41.06,
+      "completed": 1797,
+      "rss_bytes": 19869696,
+      "db_bytes": 2555904,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 42.06,
+      "completed": 1838,
+      "rss_bytes": 19869696,
+      "db_bytes": 2621440,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 43.06,
+      "completed": 1882,
+      "rss_bytes": 19873792,
+      "db_bytes": 2682880,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 44.07,
+      "completed": 1927,
+      "rss_bytes": 19873792,
+      "db_bytes": 2748416,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 45.07,
+      "completed": 1971,
+      "rss_bytes": 19877888,
+      "db_bytes": 2805760,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 46.07,
+      "completed": 2015,
+      "rss_bytes": 19877888,
+      "db_bytes": 2867200,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 47.07,
+      "completed": 2058,
+      "rss_bytes": 19877888,
+      "db_bytes": 2932736,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 48.07,
+      "completed": 2100,
+      "rss_bytes": 19881984,
+      "db_bytes": 2990080,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 49.07,
+      "completed": 2142,
+      "rss_bytes": 19881984,
+      "db_bytes": 3047424,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 50.07,
+      "completed": 2186,
+      "rss_bytes": 19881984,
+      "db_bytes": 3117056,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 51.07,
+      "completed": 2227,
+      "rss_bytes": 19886080,
+      "db_bytes": 3174400,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 52.07,
+      "completed": 2269,
+      "rss_bytes": 19886080,
+      "db_bytes": 3231744,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 53.07,
+      "completed": 2310,
+      "rss_bytes": 19890176,
+      "db_bytes": 3284992,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 54.07,
+      "completed": 2354,
+      "rss_bytes": 19894272,
+      "db_bytes": 3346432,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 55.07,
+      "completed": 2399,
+      "rss_bytes": 19894272,
+      "db_bytes": 3411968,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 56.08,
+      "completed": 2446,
+      "rss_bytes": 19898368,
+      "db_bytes": 3481600,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 57.08,
+      "completed": 2493,
+      "rss_bytes": 19898368,
+      "db_bytes": 3543040,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 58.08,
+      "completed": 2538,
+      "rss_bytes": 19898368,
+      "db_bytes": 3616768,
+      "wal_bytes": 0
+    },
+    {
+      "seconds": 59.08,
+      "completed": 2583,
+      "rss_bytes": 19902464,
+      "db_bytes": 3678208,
+      "wal_bytes": 0
+    }
+  ]
+}

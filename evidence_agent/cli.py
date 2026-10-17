@@ -20,10 +20,13 @@ def main():
     parser.add_argument("--corpus", type=Path, default=Path(str(files("evidence_agent").joinpath("data/corpus.json"))))
     parser.add_argument("--max-reads", type=int, default=3)
     parser.add_argument("--audit-db", type=Path, help="Persist full results (includes user input and evidence excerpts)")
+    parser.add_argument("--wikipedia", action="store_true", help="Retrieve English Wikipedia lead extracts over HTTPS")
     args = parser.parse_args()
     try:
         request = Request(args.question, tuple(args.claim))
-        service = EvidenceService(LocalRetrieval(Corpus(args.corpus)), LexicalAssessment(), Policy(max_reads=args.max_reads))
+        from .wikipedia import WikipediaRetrieval
+        retrieval = WikipediaRetrieval() if args.wikipedia else LocalRetrieval(Corpus(args.corpus))
+        service = EvidenceService(retrieval, LexicalAssessment(), Policy(max_reads=args.max_reads))
         result = asyncio.run(service.run(request))
         if args.audit_db:
             try:
@@ -47,3 +50,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+

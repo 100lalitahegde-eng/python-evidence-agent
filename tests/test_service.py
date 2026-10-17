@@ -33,6 +33,11 @@ class Fake:
         return SOURCE
 
 
+class Fabricator:
+    def candidates(self, claim, sources):
+        return [Citation("one", SOURCE.digest, 0, 2, "fabricated")]
+
+
 class ServiceTests(unittest.IsolatedAsyncioTestCase):
     async def test_exact_citation_and_safe_telemetry(self):
         service = EvidenceService(Fake(), LexicalAssessment())
@@ -142,9 +147,6 @@ class ServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result["errors"][0]["code"], "invalid_provider_response")
 
     async def test_bad_assessor_fails_closed(self):
-        class Fabricator:
-            def candidates(self, claim, sources):
-                return [Citation("one", SOURCE.digest, 0, 2, "fabricated")]
         with self.assertRaises(ValueError):
             await EvidenceService(Fake(), Fabricator()).run(REQUEST)
 
@@ -197,3 +199,4 @@ class ValidationTests(unittest.TestCase):
             result = subprocess.run(cmd + ["--max-reads", "-1"], capture_output=True, text=True, timeout=10)
             self.assertEqual(result.returncode, 2)
             self.assertEqual(json.loads(result.stdout)["error"]["code"], "invalid_input_or_corpus")
+

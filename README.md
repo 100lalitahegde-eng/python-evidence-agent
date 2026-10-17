@@ -2,8 +2,8 @@
 
 An embeddable, bounded evidence-retrieval pipeline with validated source snapshots,
 exact citation spans, explicit partial failures, cancellable async orchestration and
-optional transactional run retention. The included retrieval and assessment adapters
-are deterministic and offline. Candidate passages always require human verification.
+optional transactional run retention. The default retrieval and assessment adapters
+are deterministic and offline; optional Wikipedia retrieval uses HTTPS. Candidate passages always require human verification.
 
 ## Run
 
@@ -65,12 +65,30 @@ Coverage includes overload, cancellation cleanup, retry exhaustion, total call b
 permanent failures, partial retrieval, malformed providers and fabricated citations.
 
 `evaluations/cases.json` records supported, contradictory, unrelated and unretrieved
-synthetic cases. A contradiction can still receive a lexical candidate; the suite makes
+synthetic cases. The additional 36-case `evaluations/labeled.json` distinguishes support, contradiction,
+and irrelevant lexical matches across 12 software domains. Run `python -m evaluations.score`.
+A contradiction can still receive a lexical candidate; the suite makes
 that limitation explicit. These are regression checks, not expert-labelled scientific
 accuracy measurements. Source instructions remain data and cannot schedule extra tools.
 
-The current implementation is an offline evidence component. No live model planner,
-external web retrieval, semantic claim
-verification, HTTP authentication, multi-tenant isolation, deployed SLO, or workload
-benchmark is implemented. Async providers must cooperate with cancellation; Python cannot
-forcibly stop a blocking provider. Deployment and production load/recovery remain unverified.
+## External retrieval and deadline isolation
+
+`evidence-agent 'Earth planet' --claim 'Earth is a planet.' --wikipedia`
+opts into sending the question to English Wikipedia. It retrieves lead extracts, not
+primary scientific evidence or the entire web. Network calls use an isolated standard-library
+HTTPS worker with a 1 MB response cap, no redirects and a five-second socket timeout;
+the service's shorter timeout/deadline also kills and reaps that worker. No dependencies added.
+
+Assessment runs in one spawned process per admitted run, covering all claims and citation
+validation within the remaining run deadline. Timeout returns `assessment incomplete` and
+an explicit assessment error; caller cancellation propagates after worker cleanup.
+Custom assessors must be picklable module-level objects. Programmatic applications must
+use Python's `if __name__ == "__main__":` guard around their entry point. Spawn overhead is
+intentional; this is process isolation for scheduling, not a sandbox for untrusted code.
+
+See [measured results and reproduction](docs/MEASUREMENTS.md). This remains a candidate
+retrieval component, without semantic verification, a live model, HTTP authentication,
+tenant isolation or deployed SLO evidence. Custom async retrieval providers must still
+cooperate with cancellation. OS scheduling, worker startup/reaping and final serialization
+can add deadline overshoot; this is not a hard real-time guarantee. Optional SQLite retention
+is outside `service.run` and its deadline, and requires an operator retention policy.

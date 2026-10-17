@@ -27,3 +27,26 @@ requests before choosing capacities. Audit data grows until the operator applies
 there is no automatic purge. SQLite WAL files are part of the active database: use SQLite's
 backup API for a consistent backup, restore into a separate path, and verify representative
 run IDs before switching. Backup/restore is guidance, not a deployment exercise verified here.
+
+
+## Assessment isolation and external retrieval
+
+Version 0.3 requires spawn-compatible assessors (module-level classes and picklable state).
+The host entry point must use a main guard. Assessment workers are disposable: changes to
+adapter state do not persist between runs. Timeout produces `assessment incomplete`, not
+an unsupported verdict. Cancellation kills/reaps the active worker before freeing the slot.
+Startup, OS scheduling and cleanup introduce measurable overshoot; the run budget is not
+a hard real-time or persistence deadline. Size concurrency for process memory as well as CPU.
+
+`--wikipedia` explicitly sends questions to English Wikipedia; its lead extracts are
+secondary sources. No credentials are required. The adapter does not crawl citation URLs.
+Network failures follow the existing retry budget; HTTP 429/5xx are transient, other HTTP
+failures and malformed/oversize payloads are permanent. No redirects are followed. A failed
+live smoke test in the development environment is recorded in MEASUREMENTS.md.
+
+Run `python -m benchmarks.load --seconds 120 --concurrency 4` from the repository root on
+Linux, or trigger the manual measurement workflow for concurrency 1/4/8. The harness writes
+to a temporary database and reports physical growth; production run retention is still
+unbounded in aggregate. Set a host retention/export policy and disk alerts. SQLite commits
+are synchronous and outside the service deadline. The measured closed-loop load does not
+model bursts, distributed clients, network-provider limits or long-duration disk exhaustion.

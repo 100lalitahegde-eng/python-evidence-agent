@@ -1,0 +1,25 @@
+name: Measure evidence service
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        concurrency: [1, 4, 8]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m benchmarks.load --seconds 120 --concurrency ${{ matrix.concurrency }} > load.json
+      - run: python -m evaluations.score > evaluation.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidence-measurements-${{ matrix.concurrency }}
+          path: |
+            load.json
+            evaluation.json
