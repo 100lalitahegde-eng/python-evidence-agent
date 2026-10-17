@@ -8,6 +8,7 @@ import multiprocessing as mp
 import pickle
 import tempfile
 import time
+from .semantic import AssessedClaim
 
 
 def _worker(assessment, claims, sources, path):
@@ -15,12 +16,23 @@ def _worker(assessment, claims, sources, path):
         rows = []
         by_id = {s.id: s for s in sources}
         for claim in claims:
-            citations = assessment.candidates(claim, sources)
+            if hasattr(assessment, "assess_claim"):
+                row = assessment.assess_claim(claim, sources)
+                if not isinstance(row, AssessedClaim):
+                    raise ValueError("invalid semantic output")
+                citations = row.citations
+                if (not isinstance(row.judgments, list) or len(row.judgments) != len(sources)
+                        or {j.source_id for j in row.judgments} != set(by_id)):
+                    raise ValueError("incomplete semantic output")
+                for judgment in row.judgments:
+                    judgment.validate(by_id[judgment.source_id])
+            else:
+                row = citations = assessment.candidates(claim, sources)
             if not isinstance(citations, list) or len(citations) > len(sources):
                 raise ValueError("invalid assessment output")
             for citation in citations:
                 citation.validate(by_id[citation.source_id])
-            rows.append(citations)
+            rows.append(row)
         payload = (True, rows)
     except Exception:
         payload = (False, None)

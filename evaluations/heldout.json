@@ -1,0 +1,175 @@
+{
+  "version": "1.0",
+  "split": "authored-heldout",
+  "provenance": "Authored before first model evaluation; independent human review pending. These six domains do not occur in the development challenge set. Not an externally validated benchmark.",
+  "cases": [
+    {
+      "id": "cache-support",
+      "domain": "cache",
+      "claim": "Evicted entries cannot be read from the cache.",
+      "passage": "An entry removed by eviction is no longer available in the cache.",
+      "label": "support"
+    },
+    {
+      "id": "cache-contradiction",
+      "domain": "cache",
+      "claim": "Evicted entries cannot be read from the cache.",
+      "passage": "Evicted entries remain readable from the cache for an hour.",
+      "label": "contradiction"
+    },
+    {
+      "id": "cache-uncertain",
+      "domain": "cache",
+      "claim": "Evicted entries cannot be read from the cache.",
+      "passage": "A cache stores entries keyed by identifiers.",
+      "label": "uncertain"
+    },
+    {
+      "id": "cache-irrelevant",
+      "domain": "cache",
+      "claim": "Evicted entries cannot be read from the cache.",
+      "passage": "Cranes migrate south in autumn.",
+      "label": "irrelevant"
+    },
+    {
+      "id": "leases-support",
+      "domain": "leases",
+      "claim": "Renewal extends the lease by sixty seconds.",
+      "passage": "A successful renewal adds one minute to the lease duration.",
+      "label": "support"
+    },
+    {
+      "id": "leases-contradiction",
+      "domain": "leases",
+      "claim": "Renewal extends the lease by sixty seconds.",
+      "passage": "Renewal extends the lease by only ten seconds.",
+      "label": "contradiction"
+    },
+    {
+      "id": "leases-uncertain",
+      "domain": "leases",
+      "claim": "Renewal extends the lease by sixty seconds.",
+      "passage": "Renewal may extend the lease; the duration is not specified.",
+      "label": "uncertain"
+    },
+    {
+      "id": "leases-irrelevant",
+      "domain": "leases",
+      "claim": "Renewal extends the lease by sixty seconds.",
+      "passage": "Bread dough rises in warm conditions.",
+      "label": "irrelevant"
+    },
+    {
+      "id": "replication-support",
+      "domain": "replication",
+      "claim": "Acknowledged messages are replicated to three nodes.",
+      "passage": "Before acknowledgement, every message is copied to three nodes.",
+      "label": "support"
+    },
+    {
+      "id": "replication-contradiction",
+      "domain": "replication",
+      "claim": "Acknowledged messages are replicated to three nodes.",
+      "passage": "Acknowledged messages are kept only on one node.",
+      "label": "contradiction"
+    },
+    {
+      "id": "replication-uncertain",
+      "domain": "replication",
+      "claim": "Acknowledged messages are replicated to three nodes.",
+      "passage": "The monitoring page asks whether acknowledged messages are replicated to three nodes.",
+      "label": "uncertain"
+    },
+    {
+      "id": "replication-irrelevant",
+      "domain": "replication",
+      "claim": "Acknowledged messages are replicated to three nodes.",
+      "passage": "The greenhouse grows orchids.",
+      "label": "irrelevant"
+    },
+    {
+      "id": "migration-support",
+      "domain": "migration",
+      "claim": "Schema migration preserves existing customer records.",
+      "passage": "Existing customer records remain intact after the schema migration.",
+      "label": "support"
+    },
+    {
+      "id": "migration-contradiction",
+      "domain": "migration",
+      "claim": "Schema migration preserves existing customer records.",
+      "passage": "The schema migration deletes all existing customer records.",
+      "label": "contradiction"
+    },
+    {
+      "id": "migration-uncertain",
+      "domain": "migration",
+      "claim": "Schema migration preserves existing customer records.",
+      "passage": "The planned schema migration is intended to preserve records, but has not been tested.",
+      "label": "uncertain"
+    },
+    {
+      "id": "migration-irrelevant",
+      "domain": "migration",
+      "claim": "Schema migration preserves existing customer records.",
+      "passage": "Dolphins communicate through clicks.",
+      "label": "irrelevant"
+    },
+    {
+      "id": "queue-support",
+      "domain": "queue",
+      "claim": "Queued work is processed after recovery.",
+      "passage": "After recovery, the worker processes the work left in the queue.",
+      "label": "support"
+    },
+    {
+      "id": "queue-contradiction",
+      "domain": "queue",
+      "claim": "Queued work is processed after recovery.",
+      "passage": "All queued work is discarded during recovery and never processed.",
+      "label": "contradiction"
+    },
+    {
+      "id": "queue-uncertain",
+      "domain": "queue",
+      "claim": "Queued work is processed after recovery.",
+      "passage": "The system has a queue and a recovery procedure.",
+      "label": "uncertain"
+    },
+    {
+      "id": "queue-irrelevant",
+      "domain": "queue",
+      "claim": "Queued work is processed after recovery.",
+      "passage": "Fresh basil is used in pesto.",
+      "label": "irrelevant"
+    },
+    {
+      "id": "quota-support",
+      "domain": "quota",
+      "claim": "Guests may upload at most five files per day.",
+      "passage": "A guest can upload no more than five files on any day.",
+      "label": "support"
+    },
+    {
+      "id": "quota-contradiction",
+      "domain": "quota",
+      "claim": "Guests may upload at most five files per day.",
+      "passage": "Guests may upload ten files each day.",
+      "label": "contradiction"
+    },
+    {
+      "id": "quota-uncertain",
+      "domain": "quota",
+      "claim": "Guests may upload at most five files per day.",
+      "passage": "Guests have an upload quota; its limit is configurable.",
+      "label": "uncertain"
+    },
+    {
+      "id": "quota-irrelevant",
+      "domain": "quota",
+      "claim": "Guests may upload at most five files per day.",
+      "passage": "Granite is an igneous rock.",
+      "label": "irrelevant"
+    }
+  ]
+}

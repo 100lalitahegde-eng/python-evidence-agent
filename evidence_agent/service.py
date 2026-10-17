@@ -6,6 +6,7 @@ import time
 from uuid import uuid4
 from .domain import Policy, Request, Source
 from .isolated import assess
+from .semantic import AssessedClaim
 from .ports import Assessment, ProviderError, Retrieval, TransientProviderError
 
 logger = logging.getLogger(__name__)
@@ -114,13 +115,20 @@ class EvidenceService:
                 assessment_incomplete = True
                 rows = [[] for _ in request.claims]
             assessment_ms = round((time.monotonic() - assessment_started) * 1000, 3)
-            for claim, citations in zip(request.claims, rows):
+            for claim, row in zip(request.claims, rows):
+                citations = row.citations if isinstance(row, AssessedClaim) else row
                 assessments.append({"claim": claim,
                                     "status": "assessment incomplete" if assessment_incomplete else
                                     "needs human verification" if citations else
+                                    "assessment uncertain" if isinstance(row, AssessedClaim) and row.judgments else
                                     "retrieval incomplete" if errors else "unsupported by retrieved text",
                                     "candidate_sources": list(dict.fromkeys(c.source_id for c in citations)),
                                     "citations": [asdict(c) for c in citations]})
+                if isinstance(row, AssessedClaim):
+                    assessments[-1]["semantic"] = {
+                        "model": row.model, "revision": row.revision,
+                        "status": "model predictions require human verification",
+                        "judgments": [asdict(j) for j in row.judgments]}
             status = "partial" if errors and sources else "failed" if errors else "complete"
             result = {"schema_version": "1.0", "run_id": run_id, "status": status,
                       "question": request.question, "claims": assessments,

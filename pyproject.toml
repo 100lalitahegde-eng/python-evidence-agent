@@ -4,10 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "python-evidence-agent"
-version = "0.3.0"
+version = "0.4.0"
 description = "Bounded evidence retrieval with validated citations and explicit failure semantics"
 requires-python = ">=3.11"
 dependencies = []
+
+[project.optional-dependencies]
+semantic = ["torch>=2.6,<3", "transformers>=4.57,<5", "sentencepiece>=0.2,<0.3"]
 
 [project.scripts]
 evidence-agent = "evidence_agent.cli:main"

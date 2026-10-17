@@ -6,7 +6,10 @@ import sqlite3
 
 
 class RunStore:
-    def __init__(self, path: Path):
+    def __init__(self, path: Path, max_runs: int | None = None):
+        if max_runs is not None and (type(max_runs) is not int or not 1 <= max_runs <= 1_000_000):
+            raise ValueError("max_runs must be 1..1000000 or None")
+        self.max_runs = max_runs
         self.path = str(path)
         with self._connect() as conn:
             conn.execute("PRAGMA journal_mode=WAL")
@@ -31,8 +34,12 @@ class RunStore:
         with self._connect() as conn:
             # Never overwrite a previous run, including an accidental duplicate ID.
             conn.execute("INSERT INTO runs(run_id, result) VALUES (?, ?)", (result["run_id"], payload))
+            if self.max_runs is not None:
+                # Insertion and eviction are one transaction; ties use insertion rowid.
+                conn.execute("DELETE FROM runs WHERE rowid NOT IN (SELECT rowid FROM runs ORDER BY rowid DESC LIMIT ?)", (self.max_runs,))
 
     def get(self, run_id: str) -> dict | None:
         with self._connect() as conn:
             row = conn.execute("SELECT result FROM runs WHERE run_id = ?", (run_id,)).fetchone()
         return json.loads(row[0]) if row else None
+

@@ -21,16 +21,22 @@ def main():
     parser.add_argument("--max-reads", type=int, default=3)
     parser.add_argument("--audit-db", type=Path, help="Persist full results (includes user input and evidence excerpts)")
     parser.add_argument("--wikipedia", action="store_true", help="Retrieve English Wikipedia lead extracts over HTTPS")
+    parser.add_argument("--semantic", action="store_true", help="Use the predownloaded optional local NLI model")
+    parser.add_argument("--deadline-seconds", type=float, default=10)
+    parser.add_argument("--retain-runs", type=int, help="Keep only this many latest stored runs; opt-in deletion")
     args = parser.parse_args()
     try:
         request = Request(args.question, tuple(args.claim))
         from .wikipedia import WikipediaRetrieval
         retrieval = WikipediaRetrieval() if args.wikipedia else LocalRetrieval(Corpus(args.corpus))
-        service = EvidenceService(retrieval, LexicalAssessment(), Policy(max_reads=args.max_reads))
+        from .semantic import SemanticAssessment
+        if args.retain_runs is not None and (not args.audit_db or args.retain_runs < 1):
+            raise ValueError("retention requires audit-db and a positive count")
+        service = EvidenceService(retrieval, SemanticAssessment() if args.semantic else LexicalAssessment(), Policy(max_reads=args.max_reads, deadline_seconds=args.deadline_seconds))
         result = asyncio.run(service.run(request))
         if args.audit_db:
             try:
-                RunStore(args.audit_db).save(result)
+                RunStore(args.audit_db, max_runs=args.retain_runs).save(result)
             except (sqlite3.Error, OSError):
                 print(json.dumps({"error": {"code": "persistence_failed"}}))
                 return 4
