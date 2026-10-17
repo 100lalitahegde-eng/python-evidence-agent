@@ -2,7 +2,7 @@
 
 The product boundary is an embeddable evidence-retrieval service plus a packaged CLI.
 Its output is a set of candidate passages for human review. The current adapter is
-local and deterministic; adding a network/model adapter is a separate product decision.
+local and deterministic by default; opt-in Wikipedia retrieval fetches secondary-source lead extracts.
 
 | Layer | Responsibility | Dependencies |
 | --- | --- | --- |
@@ -22,7 +22,7 @@ source credibility. The assessor returns spans, never a verified verdict. A futu
 model adapter must preserve source-snapshot validation and distinguish its own predictions
 from independent evidence. The synthetic contradiction case intentionally produces a
 candidate: it documents the baseline's limitation instead of reporting misleading accuracy.
-No private content is sent to any model or external endpoint in this implementation.
+No content is sent externally by default. Opt-in Wikipedia retrieval sends the search question to its API; no model is used.
 
 ## ADR 2: bound work at application boundaries
 
@@ -39,11 +39,22 @@ Retries are safe here because retrieval is read-only. Do not reuse this retry po
 mutating tools without an idempotency design. Deterministic backoff is sufficient for this
 local adapter; distributed clients should add bounded jitter in their network adapter.
 
-Timeouts and cancellation are cooperative. Providers must use cancellable async I/O,
-not block the event loop or suppress CancelledError. asyncio cannot forcibly terminate a
-blocking or cancellation-hostile provider. The deadline bounds cooperative retrieval;
-synchronous assessment and local bounded CPU work are not preemptible. Network adapters
-must also set transport timeouts and response limits. No network adapter ships here.
+Custom async retrieval remains cooperative: adapters must not block the event loop or
+suppress cancellation. The supplied Wikipedia adapter isolates DNS/socket work in a
+killable subprocess, enforces a response cap and disables redirects. A timed-out call
+kills/reaps its worker before returning or retrying. It uses the MediaWiki Action API
+search and plaintext lead-extract contracts:
+https://www.mediawiki.org/wiki/API:Search and
+https://www.mediawiki.org/wiki/Extension:TextExtracts#API.
+
+Synchronous assessment now runs in a spawned process (`isolated.py`), with the remaining
+absolute run deadline covering startup, all claims and citation validation. Timeout discards
+all assessment results, returns `assessment incomplete`, and kills/reaps the worker. Caller
+cancellation also reaps before releasing admission. Workers do not mutate parent state;
+assessors must be module-level/picklable. This deliberately changes the custom-assessor
+contract: closures and local classes are rejected. Spawn and OS cleanup can overshoot the
+deadline; the scheduler is not real-time. Persistence and final output serialization are
+outside the assessment boundary. Process isolation is not a security sandbox.
 
 ## ADR 3: failures cannot masquerade as absence of evidence
 
@@ -73,3 +84,4 @@ An HTTP product would additionally need authentication, authorization per corpus
 request-size limits at ingress, tenant-specific quotas, durable job ownership if requests
 outlive connections, and health/metrics endpoints. Add those with a concrete hosting model.
 Those deployment boundaries are outside the current component.
+

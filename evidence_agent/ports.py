@@ -17,4 +17,6 @@ class Retrieval(Protocol):
 
 
 class Assessment(Protocol):
+    """Picklable module-level implementation; runs in a disposable spawned process."""
     def candidates(self, claim: str, sources: tuple[Source, ...]) -> list[Citation]: ...
+

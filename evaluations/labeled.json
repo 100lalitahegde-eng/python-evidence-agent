@@ -1,0 +1,294 @@
+{
+  "version": "1.0",
+  "provenance": "Authored synthetic software-domain challenge set; labels not independently expert-reviewed. No training or tuning split.",
+  "cases": [
+    {
+      "id": "reservations-support",
+      "domain": "reservations",
+      "claim": "Active holds consume available capacity.",
+      "passage": "Active holds consume available capacity until expiry.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "reservations-contradiction",
+      "domain": "reservations",
+      "claim": "Active holds consume available capacity.",
+      "passage": "Active holds do not consume available capacity.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "reservations-irrelevant",
+      "domain": "reservations",
+      "claim": "Active holds consume available capacity.",
+      "passage": "The dashboard displays the words active holds consume available capacity as a search hint.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "idempotency-support",
+      "domain": "idempotency",
+      "claim": "Repeated requests with the same key create one payment.",
+      "passage": "Repeated requests with the same key create one payment.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "idempotency-contradiction",
+      "domain": "idempotency",
+      "claim": "Repeated requests with the same key create one payment.",
+      "passage": "Repeated requests with the same key create multiple payments.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "idempotency-irrelevant",
+      "domain": "idempotency",
+      "claim": "Repeated requests with the same key create one payment.",
+      "passage": "The tutorial asks whether repeated requests with the same key create one payment.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "durability-support",
+      "domain": "durability",
+      "claim": "Committed writes survive a process restart.",
+      "passage": "Committed writes survive a process restart.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "durability-contradiction",
+      "domain": "durability",
+      "claim": "Committed writes survive a process restart.",
+      "passage": "Committed writes are lost after a process restart.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "durability-irrelevant",
+      "domain": "durability",
+      "claim": "Committed writes survive a process restart.",
+      "passage": "The benchmark title is Committed writes survive a process restart.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "authorization-support",
+      "domain": "authorization",
+      "claim": "Only administrators can delete audit records.",
+      "passage": "Only administrators can delete audit records.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "authorization-contradiction",
+      "domain": "authorization",
+      "claim": "Only administrators can delete audit records.",
+      "passage": "All users can delete audit records.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "authorization-irrelevant",
+      "domain": "authorization",
+      "claim": "Only administrators can delete audit records.",
+      "passage": "The help page contains the question: Only administrators can delete audit records?",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "timeouts-support",
+      "domain": "timeouts",
+      "claim": "The client cancels requests after two seconds.",
+      "passage": "The client cancels requests after two seconds.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "timeouts-contradiction",
+      "domain": "timeouts",
+      "claim": "The client cancels requests after two seconds.",
+      "passage": "The client cancels requests after twenty seconds.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "timeouts-irrelevant",
+      "domain": "timeouts",
+      "claim": "The client cancels requests after two seconds.",
+      "passage": "The test description mentions the client cancels requests after two seconds without executing a client.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "ordering-support",
+      "domain": "ordering",
+      "claim": "Jobs run in ascending priority order.",
+      "passage": "Jobs run in ascending priority order.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "ordering-contradiction",
+      "domain": "ordering",
+      "claim": "Jobs run in ascending priority order.",
+      "passage": "Jobs run in descending priority order.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "ordering-irrelevant",
+      "domain": "ordering",
+      "claim": "Jobs run in ascending priority order.",
+      "passage": "The filename jobs run in ascending priority order is used for a screenshot.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "encryption-support",
+      "domain": "encryption",
+      "claim": "Backups are encrypted at rest.",
+      "passage": "All backup files use encryption while stored on disk.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "encryption-contradiction",
+      "domain": "encryption",
+      "claim": "Backups are encrypted at rest.",
+      "passage": "Backups are stored in plaintext.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "encryption-irrelevant",
+      "domain": "encryption",
+      "claim": "Backups are encrypted at rest.",
+      "passage": "The settings menu displays Backups are encrypted at rest before configuration is saved.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "retention-support",
+      "domain": "retention",
+      "claim": "Audit records expire after thirty days.",
+      "passage": "Audit records expire after thirty days.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "retention-contradiction",
+      "domain": "retention",
+      "claim": "Audit records expire after thirty days.",
+      "passage": "Audit records never expire.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "retention-irrelevant",
+      "domain": "retention",
+      "claim": "Audit records expire after thirty days.",
+      "passage": "The design proposal asks whether audit records should expire after thirty days.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "scope-support",
+      "domain": "scope",
+      "claim": "Failed transactions release their locks.",
+      "passage": "Locks are released when a transaction fails.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "scope-contradiction",
+      "domain": "scope",
+      "claim": "Failed transactions release their locks.",
+      "passage": "Failed transactions retain their locks indefinitely.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "scope-irrelevant",
+      "domain": "scope",
+      "claim": "Failed transactions release their locks.",
+      "passage": "The documentation index lists failed transactions and release their locks under separate topics.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "version-support",
+      "domain": "version",
+      "claim": "Version two supports concurrent readers.",
+      "passage": "Version two supports concurrent readers.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "version-contradiction",
+      "domain": "version",
+      "claim": "Version two supports concurrent readers.",
+      "passage": "Only version one supports concurrent readers; version two does not.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "version-irrelevant",
+      "domain": "version",
+      "claim": "Version two supports concurrent readers.",
+      "passage": "The issue title Version two supports concurrent readers is an unverified feature request.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "conditional-support",
+      "domain": "conditional",
+      "claim": "Expired tokens are rejected even when signatures are valid.",
+      "passage": "Expired tokens are rejected even when signatures are valid.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "conditional-contradiction",
+      "domain": "conditional",
+      "claim": "Expired tokens are rejected even when signatures are valid.",
+      "passage": "Expired tokens are accepted when signatures are valid.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "conditional-irrelevant",
+      "domain": "conditional",
+      "claim": "Expired tokens are rejected even when signatures are valid.",
+      "passage": "The example log contains the literal string Expired tokens are rejected even when signatures are valid.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    },
+    {
+      "id": "entity-support",
+      "domain": "entity",
+      "claim": "The archive service stores files in Europe.",
+      "passage": "The archive service stores files in Europe.",
+      "label": "support",
+      "rationale": "Passage asserts the claim or an equivalent paraphrase."
+    },
+    {
+      "id": "entity-contradiction",
+      "domain": "entity",
+      "claim": "The archive service stores files in Europe.",
+      "passage": "The archive service stores files exclusively in Canada.",
+      "label": "contradiction",
+      "rationale": "Passage asserts an incompatible polarity, quantity, scope, entity, or condition."
+    },
+    {
+      "id": "entity-irrelevant",
+      "domain": "entity",
+      "claim": "The archive service stores files in Europe.",
+      "passage": "The billing service stores files in Europe; the archive service is not discussed.",
+      "label": "irrelevant",
+      "rationale": "Matching words occur in a question, quotation, proposal, UI text, or different entity; no assertion establishes the claim."
+    }
+  ]
+}

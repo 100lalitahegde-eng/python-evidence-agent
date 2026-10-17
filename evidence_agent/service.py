@@ -5,6 +5,7 @@ import logging
 import time
 from uuid import uuid4
 from .domain import Policy, Request, Source
+from .isolated import assess
 from .ports import Assessment, ProviderError, Retrieval, TransientProviderError
 
 logger = logging.getLogger(__name__)
@@ -104,15 +105,19 @@ class EvidenceService:
             except _Failure as exc:
                 errors.append({"code": exc.code, "operation": "search"})
             assessments = []
-            for claim in request.claims:
-                citations = self.assessment.candidates(claim, tuple(sources))
-                if not isinstance(citations, list) or len(citations) > len(sources):
-                    raise ValueError("invalid assessment output")
-                by_id = {s.id: s for s in sources}
-                for citation in citations:
-                    citation.validate(by_id[citation.source_id])
+            assessment_incomplete = False
+            assessment_started = time.monotonic()
+            try:
+                rows = await assess(self.assessment, request.claims, tuple(sources), deadline)
+            except TimeoutError:
+                errors.append({"code": "deadline_exceeded", "operation": "assessment"})
+                assessment_incomplete = True
+                rows = [[] for _ in request.claims]
+            assessment_ms = round((time.monotonic() - assessment_started) * 1000, 3)
+            for claim, citations in zip(request.claims, rows):
                 assessments.append({"claim": claim,
-                                    "status": "needs human verification" if citations else
+                                    "status": "assessment incomplete" if assessment_incomplete else
+                                    "needs human verification" if citations else
                                     "retrieval incomplete" if errors else "unsupported by retrieved text",
                                     "candidate_sources": list(dict.fromkeys(c.source_id for c in citations)),
                                     "citations": [asdict(c) for c in citations]})
@@ -121,9 +126,10 @@ class EvidenceService:
                       "question": request.question, "claims": assessments,
                       "sources": [{"id": s.id, "title": s.title, "url": s.url, "sha256": s.digest} for s in sources],
                       "trace": trace, "errors": errors, "read_budget": self.policy.max_reads,
-                      "metrics": {"tool_calls": calls, "sources_read": len(sources),
+                      "metrics": {"assessment_ms": assessment_ms, "tool_calls": calls, "sources_read": len(sources),
                                   "duration_ms": round((time.monotonic() - started) * 1000, 3)}}
             logger.info("evidence_run", extra={"run_id": run_id, "status": status, "tool_calls": calls})
             return result
         finally:
             self._active -= 1
+

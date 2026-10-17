@@ -1,0 +1,202 @@
+{
+  "dataset_version": "1.0",
+  "provenance": "Authored synthetic software-domain challenge set; labels not independently expert-reviewed. No training or tuning split.",
+  "by_label": {
+    "support": {
+      "total": 12,
+      "selected": 10
+    },
+    "contradiction": {
+      "total": 12,
+      "selected": 8
+    },
+    "irrelevant": {
+      "total": 12,
+      "selected": 12
+    }
+  },
+  "stance_accuracy": null,
+  "reason": "LexicalAssessment does not predict stance. Selection must never be interpreted as support.",
+  "cases": [
+    {
+      "id": "reservations-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "reservations-contradiction",
+      "label": "contradiction",
+      "candidate_selected": true
+    },
+    {
+      "id": "reservations-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "idempotency-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "idempotency-contradiction",
+      "label": "contradiction",
+      "candidate_selected": true
+    },
+    {
+      "id": "idempotency-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "durability-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "durability-contradiction",
+      "label": "contradiction",
+      "candidate_selected": true
+    },
+    {
+      "id": "durability-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "authorization-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "authorization-contradiction",
+      "label": "contradiction",
+      "candidate_selected": false
+    },
+    {
+      "id": "authorization-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "timeouts-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "timeouts-contradiction",
+      "label": "contradiction",
+      "candidate_selected": true
+    },
+    {
+      "id": "timeouts-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "ordering-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "ordering-contradiction",
+      "label": "contradiction",
+      "candidate_selected": true
+    },
+    {
+      "id": "ordering-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "encryption-support",
+      "label": "support",
+      "candidate_selected": false
+    },
+    {
+      "id": "encryption-contradiction",
+      "label": "contradiction",
+      "candidate_selected": false
+    },
+    {
+      "id": "encryption-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "retention-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "retention-contradiction",
+      "label": "contradiction",
+      "candidate_selected": false
+    },
+    {
+      "id": "retention-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "scope-support",
+      "label": "support",
+      "candidate_selected": false
+    },
+    {
+      "id": "scope-contradiction",
+      "label": "contradiction",
+      "candidate_selected": true
+    },
+    {
+      "id": "scope-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "version-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "version-contradiction",
+      "label": "contradiction",
+      "candidate_selected": true
+    },
+    {
+      "id": "version-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "conditional-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "conditional-contradiction",
+      "label": "contradiction",
+      "candidate_selected": false
+    },
+    {
+      "id": "conditional-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    },
+    {
+      "id": "entity-support",
+      "label": "support",
+      "candidate_selected": true
+    },
+    {
+      "id": "entity-contradiction",
+      "label": "contradiction",
+      "candidate_selected": true
+    },
+    {
+      "id": "entity-irrelevant",
+      "label": "irrelevant",
+      "candidate_selected": true
+    }
+  ]
+}
