@@ -3,8 +3,7 @@
 An embeddable, bounded evidence-retrieval pipeline with validated source snapshots,
 exact citation spans, explicit partial failures, cancellable async orchestration and
 optional transactional run retention. The default retrieval and assessment adapters
-are deterministic and offline; optional Wikipedia retrieval uses HTTPS. Candidate passages always require human verification.
-
+are deterministic and offline; optional Wikipedia retrieval uses HTTPS. 
 ## Run
 
 Python 3.11–3.13 are covered by the CI matrix. No runtime dependencies.
