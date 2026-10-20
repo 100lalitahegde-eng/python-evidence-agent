@@ -83,5 +83,4 @@ coordination. Directory permissions, retention and backups belong to the operato
 An HTTP product would additionally need authentication, authorization per corpus,
 request-size limits at ingress, tenant-specific quotas, durable job ownership if requests
 outlive connections, and health/metrics endpoints. Add those with a concrete hosting model.
-Those deployment boundaries are outside the current component.
 

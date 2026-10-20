@@ -1,11 +1,15 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "python-evidence-agent"
 version = "0.3.0"
 description = "Bounded evidence retrieval with validated citations and explicit failure semantics"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Lalita Hegade"}]
 requires-python = ">=3.11"
 dependencies = []
 

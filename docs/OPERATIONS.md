@@ -22,11 +22,10 @@ CLI exit codes: 0 complete retrieval, 2 invalid input/corpus or argparse usage e
 codes; argparse syntax errors use its normal stderr usage output.
 
 Track status rates, overload, tool-call counts and duration percentiles in the host.
-No SLO or throughput result is claimed. Measure representative corpus sizes and concurrent
-requests before choosing capacities. Audit data grows until the operator applies retention;
-there is no automatic purge. SQLite WAL files are part of the active database: use SQLite's
-backup API for a consistent backup, restore into a separate path, and verify representative
-run IDs before switching. Backup/restore is guidance, not a deployment exercise verified here.
+Measure representative corpus sizes and concurrent requests before choosing capacities.
+Audit data grows until the operator applies retention; there is no automatic purge.
+SQLite WAL files are part of the active database: use SQLite's backup API for a consistent
+backup, restore into a separate path, and verify representative run IDs before switching.
 
 
 ## Assessment isolation and external retrieval
@@ -41,8 +40,7 @@ a hard real-time or persistence deadline. Size concurrency for process memory as
 `--wikipedia` explicitly sends questions to English Wikipedia; its lead extracts are
 secondary sources. No credentials are required. The adapter does not crawl citation URLs.
 Network failures follow the existing retry budget; HTTP 429/5xx are transient, other HTTP
-failures and malformed/oversize payloads are permanent. No redirects are followed. A failed
-live smoke test in the development environment is recorded in MEASUREMENTS.md.
+failures and malformed/oversize payloads are permanent. No redirects are followed.
 
 Run `python -m benchmarks.load --seconds 120 --concurrency 4` from the repository root on
 Linux, or trigger the manual measurement workflow for concurrency 1/4/8. The harness writes

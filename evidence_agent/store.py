@@ -1,4 +1,4 @@
-"""Optional explicit result retention. Local SQLite, no claim of distributed durability."""
+"""Optional explicit result retention in a single-node SQLite store."""
 from contextlib import contextmanager
 import json
 from pathlib import Path

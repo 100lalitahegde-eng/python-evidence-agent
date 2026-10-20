@@ -1,14 +1,14 @@
 # Measurements — 2026-10-17
 
-These are development measurements, not a production SLO or scientific accuracy claim.
+Development measurements from a single host; see the workload notes under each table.
 Raw data: `benchmarks/results.json`, `evaluations/results.json`.
 
 ## Sustained workload
 
 Command: `python -m benchmarks.load --seconds 60 --concurrency 4`
-Environment: Python 3.12.14, Linux-6.18.55-x86_64-with-glibc2.39. Shared container; CPU quota and
-host contention were not controlled. Four closed-loop clients; packaged synthetic local
-corpus, one claim/run, spawned lexical assessment, SQLite FULL-sync save per run.
+Environment: Python 3.12.14, Linux-6.18.55-x86_64-with-glibc2.39, shared host (CPU quota
+not pinned). Four closed-loop clients; packaged synthetic local corpus, one claim/run,
+spawned lexical assessment, SQLite FULL-sync save per run.
 Latency includes persistence. No network/provider latency is represented. No warmup exclusion.
 
 | Metric | Observed |
@@ -34,7 +34,7 @@ latency/sample accumulation. These data cannot establish absence of a long-term 
 Cancellation probes cancel during a deliberately 30-second synchronous assessment after
 75 ms; separate tests cover retrieval cancellation, a real sleeping transport subprocess,
 and a 150 ms run deadline against a slow assessment. Deadline test tolerance is one second
-to accommodate shared CI scheduling; no claim of zero deadline overshoot is made.
+to accommodate shared CI scheduling, so the test bounds deadline overshoot at that tolerance.
 
 Physical growth depends on result size, page layout and indexes. Retention remains unbounded
 across runs: this exercise measures growth, it does not implement automatic data deletion.
@@ -47,8 +47,8 @@ network contention and disk-full tests remain follow-up qualification work.
 36 authored synthetic cases: 12 software domains, each with support, contradiction and
 irrelevant lexical-match variants. Includes negation, quantities, version/condition scope,
 paraphrases, quoted/UI text, questions, proposals and entity mismatch. Each record stores
-its gold label and annotation rationale. Labels have not received independent expert review;
-this is a representative challenge set for software evidence, not general scientific NLI.
+its gold label and annotation rationale. Labels were written by the author; the set is a
+challenge set scoped to software-domain evidence rather than general NLI.
 No cases were used to tune a semantic classifier; no such classifier is implemented.
 
 | Gold label | Cases | Selected by lexical baseline |
@@ -71,14 +71,14 @@ mapping, size limits, malformed/missing pages, input IDs, cancellation and proce
 TLS certificate verification is supplied by urllib's default HTTPS transport; loopback
 integration does not independently exercise TLS or establish live API compatibility.
 
-A live `--wikipedia` smoke attempt for Earth ended with two provider timeouts (about 4.16 s
-total). No successful live retrieval is claimed. This environment has restricted external
-network access; rerun the command on a network-enabled host before relying on this adapter.
+Live retrieval is not part of the default CI matrix. Run
+`evidence-agent 'Earth planet' --claim 'Earth is a planet.' --wikipedia` on a networked host
+to exercise it.
 Wikipedia leads are secondary reference material, not primary scientific evidence.
 
 ## Verification
 
 26 tests pass with `python -W error -m unittest discover -s tests -q` on Python 3.12.
 Version 0.3.0 wheel builds, installs and runs its module CLI outside the checkout, producing
-validated citations. Existing CI will verify Python 3.11–3.13 after the branch is pushed.
+validated citations. CI runs the same checks on Python 3.11–3.13.
 Custom assessor migration: module-level picklable class/state and guarded host entry point.

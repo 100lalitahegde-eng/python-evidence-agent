@@ -12,7 +12,8 @@ from .ports import ProviderError, TransientProviderError
 
 
 class WikipediaRetrieval:
-    def __init__(self, user_agent="EvidenceAgent/0.3 (research prototype)"):
+    def __init__(self, user_agent="python-evidence-agent/0.3 "
+                 "(+https://github.com/100lalitahegde-eng/python-evidence-agent)"):
         text(user_agent, "user agent", 512)
         if "\n" in user_agent or "\r" in user_agent:
             raise ValueError("invalid user agent")

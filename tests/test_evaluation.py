@@ -1,4 +1,4 @@
-"""Synthetic regression cases, not an expert-labelled scientific benchmark."""
+"""Synthetic, author-labelled regression cases for the lexical baseline."""
 import json
 from pathlib import Path
 import tempfile

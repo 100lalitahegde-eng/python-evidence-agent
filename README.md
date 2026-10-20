@@ -3,7 +3,8 @@
 An embeddable, bounded evidence-retrieval pipeline with validated source snapshots,
 exact citation spans, explicit partial failures, cancellable async orchestration and
 optional transactional run retention. The default retrieval and assessment adapters
-are deterministic and offline; optional Wikipedia retrieval uses HTTPS. 
+are deterministic and offline; optional Wikipedia retrieval uses HTTPS.
+
 ## Run
 
 Python 3.11–3.13 are covered by the CI matrix. No runtime dependencies.
@@ -18,7 +19,6 @@ python -m unittest discover -s tests -v
 The installed package includes a synthetic sample corpus. Use `--corpus path.json`
 for your own bounded local corpus and `--max-reads 3` to choose a read budget. The original
 `from evidence_agent.agent import Agent, Corpus` and module CLI remain supported.
-Do not use the sample design notes as evidence of another repository's current behavior.
 
 ```python
 from evidence_agent.assessment import LexicalAssessment
@@ -67,8 +67,8 @@ permanent failures, partial retrieval, malformed providers and fabricated citati
 synthetic cases. The additional 36-case `evaluations/labeled.json` distinguishes support, contradiction,
 and irrelevant lexical matches across 12 software domains. Run `python -m evaluations.score`.
 A contradiction can still receive a lexical candidate; the suite makes
-that limitation explicit. These are regression checks, not expert-labelled scientific
-accuracy measurements. Source instructions remain data and cannot schedule extra tools.
+that limitation explicit. The cases are regression checks. Source instructions remain
+data and cannot schedule extra tools.
 
 ## External retrieval and deadline isolation
 
@@ -85,9 +85,12 @@ Custom assessors must be picklable module-level objects. Programmatic applicatio
 use Python's `if __name__ == "__main__":` guard around their entry point. Spawn overhead is
 intentional; this is process isolation for scheduling, not a sandbox for untrusted code.
 
-See [measured results and reproduction](docs/MEASUREMENTS.md). This remains a candidate
-retrieval component, without semantic verification, a live model, HTTP authentication,
-tenant isolation or deployed SLO evidence. Custom async retrieval providers must still
-cooperate with cancellation. OS scheduling, worker startup/reaping and final serialization
-can add deadline overshoot; this is not a hard real-time guarantee. Optional SQLite retention
-is outside `service.run` and its deadline, and requires an operator retention policy.
+See [measured results and reproduction](docs/MEASUREMENTS.md).
+
+## Limits
+
+- Lexical assessment only; no semantic or stance classification.
+- No HTTP layer, authentication or tenant isolation (see docs/ARCHITECTURE.md, "Evolution boundary").
+- Custom async retrieval providers must cooperate with cancellation.
+- Worker startup/reaping and serialization can overshoot the run deadline slightly.
+- SQLite retention runs outside `service.run` and its deadline; the operator owns retention policy.
